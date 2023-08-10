@@ -2,7 +2,8 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-
+from dotenv import load_dotenv
+from wait_for_connect import pg_isready
 
 def main():
     """Run administrative tasks."""
@@ -19,4 +20,9 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    load_dotenv()
+
+    check_pg_isready = pg_isready()
+    if check_pg_isready :
+        print("Postgres database is connected! ✨ 💅")
+        main()
