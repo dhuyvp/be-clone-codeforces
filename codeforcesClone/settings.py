@@ -10,7 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import os
 from pathlib import Path
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +27,7 @@ SECRET_KEY = 'django-insecure-v-$v_-*c^l6!ms3r3-&vquu78l%^t-)3)k)d7wqfj!_0xy#ai&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -37,6 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    # 'django.contrib.staticfiles',  # required for serving swagger ui's css/js files
+    'drf_yasg',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -74,10 +80,10 @@ WSGI_APPLICATION = 'codeforcesClone.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=os.getenv("DATABASE_URL"),
+        # conn_max_age=int(os.getenv("POSTGRES_CONN_MAX_AGE"))
+    )
 }
 
 
